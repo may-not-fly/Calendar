@@ -19,6 +19,7 @@ void calendar_edit(void) ;
 void calendar_view(void) ;
 void day_planner(void) ;
 void tasks(void) ;
+void make_filepath(char * filepath) ;
 
 
 // arrays which will not change (months)
@@ -196,7 +197,7 @@ void options(void) {
 	while (is_closed == false) {
 
         int options_input = 0 ;
-        // Asks for an input
+        
 		printf("Options:\n1. Calendar\n2. Day Planner\n3. Tasks\n4. Close\n") ;
 		scanf("%i", &options_input) ;
         printf("\n\n\n") ;
@@ -208,9 +209,9 @@ void options(void) {
 
 		        printf("1. Edit Calendar\n2. View Calendar\n3. Back\n") ;
 		        scanf("%i", &calendar_input) ;
-		        if (calendar_input == 1) { calendar_edit() ;} //calendar edit
-                else if(calendar_input == 2) { calendar_view() ;} // calendar view
-                else if(calendar_input == 3) { calendar_exit = true ;} // exit
+		        if (calendar_input == 1) { calendar_edit() ;} 
+                else if(calendar_input == 2) { calendar_view() ;}
+                else if(calendar_input == 3) { calendar_exit = true ;} 
                 else { printf("That was not a valid input, please try again\n") ;}
         	}
         }
@@ -249,21 +250,32 @@ void options(void) {
 
 void calendar_edit(void) {
 
+    char filepath[64] ;
+    char date_info[100];
+    make_filepath(filepath) ;
+    
+    int date = 2 ; 
+    printf("Enter the day you want to edit: ") ;
+    scanf("%d", &date) ;
+    
+    FILE * file ;
+    file = fopen(filepath, "r") ;
+    
+    for (int i = 0; i < date; i++) {
+        fseek(file, 0, SEEK_CUR) ;
+        fgets(date_info, 99, file) ;
+    }
+    printf("%s\n", date_info) ;
+    fclose(file) ;
+    
+    
 }
 
 void calendar_view(void) {
-
-    printf("stuff\n") ;
-    
-    int year, month ;
+   
     char filepath[64] ;
-    printf("Input the year you want: ") ;
-    scanf("%i", &year) ;
-    printf("\nInput the number for the month you want: ") ;
-    scanf("%i", &month) ;
-    printf("\n") ;
-    sprintf(filepath, "Years/%i/%s.txt", year, MONTHS[month - 1]) ;
-
+    make_filepath(filepath) ;
+    
     FILE * file ;
     file = fopen(filepath, "r") ;
   
@@ -292,4 +304,15 @@ void day_planner(void) {
 /// Glorified To-Do-List
 void tasks(void) {
 
+}
+
+void make_filepath(char * filepath) {
+    
+    int year, month ;
+    printf("Input the year you want: ") ;
+    scanf("%i", &year) ;
+    printf("Input the number for the month you want: ") ;
+    scanf("%i", &month) ;
+    printf("\n") ;
+    sprintf(filepath, "Years/%i/%s.txt", year, MONTHS[month - 1]) ;
 }
