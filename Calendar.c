@@ -198,7 +198,7 @@ void options(void) {
         int options_input = 0 ;
         // Asks for an input
 		printf("Options:\n1. Calendar\n2. Day Planner\n3. Tasks\n4. Close\n") ;
-		scanf("%i%*c", &options_input) ;
+		scanf("%i", &options_input) ;
         printf("\n\n\n") ;
         if (options_input == 1) {
 
@@ -223,8 +223,8 @@ void options(void) {
 
                 printf("1. Edit Day Planner\n2. View Day Planner\n3. Back\n") ;
                 scanf("%i", day_planner_input) ;
-                if (day_planner_input == 1) {}
-                else if (day_planner_input == 2) {}
+                if (day_planner_input == 1) { day_planner();}
+                else if (day_planner_input == 2) { day_planner();}
                 else if (day_planner_input == 3) { day_planner_exit = true ;}
                 else { printf("That was not a valid input, please try again\n") ;}
             }
@@ -253,16 +253,43 @@ void calendar_edit(void) {
 
 void calendar_view(void) {
 
+    printf("stuff\n") ;
+    
+    int year, month ;
+    char filepath[64] ;
+    printf("Input the year you want: ") ;
+    scanf("%i", &year) ;
+    printf("\nInput the number for the month you want: ") ;
+    scanf("%i", &month) ;
+    printf("\n") ;
+    sprintf(filepath, "Years/%i/%s.txt", year, MONTHS[month - 1]) ;
+
+    FILE * file ;
+    file = fopen(filepath, "r") ;
+  
+    fseek(file, 0, SEEK_END) ;
+    int end_file = ftell(file) ;
+    fseek(file, 0, SEEK_SET) ;
+    
+    char month_data[end_file + 1] ;
+    month_data[end_file + 1] = '\0' ;
+    fread(month_data, 1, end_file, file) ;
+    for (int i = 0; i < end_file; i++) {
+        printf("%c", month_data[i]) ;
+    }
+    fseek(file, 0, SEEK_SET) ;
+    //fgets(month_data, 10, file) ;
+    fclose(file) ;
+    
 }
 
 
 void day_planner(void) {
 
+    printf("Currently not working on") ;
 }
 
 /// Glorified To-Do-List
 void tasks(void) {
 
 }
-
-// CHecking Commits
