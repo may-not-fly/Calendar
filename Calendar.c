@@ -253,6 +253,8 @@ void calendar_edit(void) {
     char filepath[64] ;
     char date_info[100];
     make_filepath(filepath) ;
+    char user_input = 'o' ;
+    bool in_loop = false ;
     
     int date = 2 ; 
     printf("Enter the day you want to edit: ") ;
@@ -262,15 +264,20 @@ void calendar_edit(void) {
     file = fopen(filepath, "r") ;
     
     for (int i = 0; i < date; i++) {
-        fseek(file, 0, SEEK_CUR) ;
+        fseek(file, 3, SEEK_CUR) ;
         fgets(date_info, 99, file) ;
     }
-    printf("%s\n", date_info) ;
     fclose(file) ;
-    
-    
+    while ((user_input != 'n')) {
+        printf("%s\n\nEdit(y/n): ", date_info) ;
+        scanf("%c", &user_input) ;
+        if (user_input == 'y') {
+            printf("%s\r", date_info) ;
+        }
+        
+    }
 }
-
+    
 void calendar_view(void) {
    
     char filepath[64] ;
